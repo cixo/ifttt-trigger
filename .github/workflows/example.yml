@@ -6,17 +6,25 @@ jobs:
     name: A job to test to cixo/ifttt-trigger
     steps:
       - name: "Without value"
-        uses: cixo/ifttt-trigger@v0.2
+        uses: cixo/ifttt-trigger@v0.3
         with:
           key: "key1"
           event: "event1"
       - name: "With values"
-        uses: cixo/ifttt-trigger@v0.2
+        uses: cixo/ifttt-trigger@v0.3
         with:
           key: "key2"
           event: "event2"
           value1: "111"
           value2: "222"
+      - name: "With more values"
+        uses: cixo/ifttt-trigger@v0.3
+        with:
+          key: "key3"
+          event: "event3"
+          value1: "111"
+          value2: "222"
+          value3: "333333"
       - name: Say Goodbye
         shell: bash
         run: |
