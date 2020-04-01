@@ -1,10 +1,20 @@
 package main
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
+	"io/ioutil"
+	"net/http"
 	"os"
 	"strings"
+	"time"
+)
+
+const (
+	method     = "POST"
+	urlBase    = "https://maker.ifttt.com/trigger/%s/with/key/%s"
+	timeoutSec = 10
 )
 
 type EventData struct {
@@ -28,9 +38,14 @@ func printJsonWithIndent(data interface{}) {
 
 func main() {
 	var (
-		args  = os.Args
-		key   string
-		event string
+		args      = os.Args
+		err       error
+		key       string
+		event     string
+		jsonBytes []byte
+		req       *http.Request
+		resp      *http.Response
+		respBytes []byte
 	)
 
 	if len(args) < 3 {
@@ -59,17 +74,28 @@ ValueLoop:
 		}
 	}
 
-	fmt.Printf("k: [%s]\n", key)
-	fmt.Printf("e: [%s]\n", event)
-	fmt.Printf("v: %v\n", data)
-	printJsonWithIndent(data)
+	if jsonBytes, err = json.Marshal(data); err != nil {
+		throwError(fmt.Sprintf("fail to marshal data: %v", err), 4)
+	}
+	if req, err = http.NewRequest(method, fmt.Sprintf(urlBase, event, key), bytes.NewBuffer(jsonBytes)); err != nil {
+		throwError(fmt.Sprintf("fail to create request: %v", err), 5)
+	}
 
-	//pwd, _ := os.Getwd()
-	//host, _ := os.Hostname()
-	//fmt.Printf("🌋: Hello World!\n💻: %s\n📂: %s\n⏰: %s\n", host, pwd, time.Now().Format("2006-01-02T15:04:05-0700"))
-	//
-	//fmt.Printf("\ngot arguments: %d\n", len(args))
-	//for i, a := range args {
-	//	fmt.Printf("#%d arg: [%v]\n", i, a)
-	//}
+	req.Header.Add("Content-Type", "application/json")
+
+	client := &http.Client{
+		Timeout: timeoutSec * time.Second,
+	}
+
+	if resp, err = client.Do(req); err != nil {
+		throwError(fmt.Sprintf("fail to send request: %v", err), 6)
+	} else {
+		defer resp.Body.Close()
+	}
+
+	if respBytes, err = ioutil.ReadAll(resp.Body); err != nil {
+		throwError(fmt.Sprintf("fail to read response: %v", err), 7)
+	}
+
+	fmt.Println("IFTTT says:", string(respBytes))
 }
