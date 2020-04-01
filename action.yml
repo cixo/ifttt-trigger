@@ -1,6 +1,9 @@
 name: "IFTTT Maker Event Trigger"
 description: "Trigger IFTTT with your custom event and values"
 author: "cixo"
+branding:
+  icon: share
+  color: blue
 inputs:
   key:
     description: "IFTTT Maker API key"
