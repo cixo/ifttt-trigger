@@ -1,0 +1,17 @@
+on: [push]
+
+jobs:
+  trial_job:
+    runs-on: ubuntu-latest
+    name: A job to test to cixo/ifttt-trigger
+    steps:
+      - name: "With event"
+        uses: cixo/ifttt-trigger@v0.1
+        with:
+          event: "Hello World"
+      - name: "Without event"
+        uses: cixo/ifttt-trigger@v0.1
+      - name: Run
+        shell: bash
+        run: |
+          echo "Done!"
