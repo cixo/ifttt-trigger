@@ -1,7 +1,15 @@
-FROM alpine:3.10
+# Builder
+FROM golang:1.14 as builder
 
-COPY LICENSE README.md /
+WORKDIR /app
 
-COPY entrypoint.sh /entrypoint.sh
+COPY . /app
 
-ENTRYPOINT ["/entrypoint.sh"]
+RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -v -o trigger .
+
+# Runner
+FROM alpine:3.11.5
+
+COPY --from=builder /app/trigger /trigger
+
+ENTRYPOINT ["/trigger"]

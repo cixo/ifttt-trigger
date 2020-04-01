@@ -1,12 +1,13 @@
-name: 'Container Action Template'
-description: 'Get started with Container actions'
-author: 'GitHub'
+name: 'IFTTT Maker Event Trigger'
+description: 'Trigger IFTTT with your custom event and values'
+author: 'cixo'
 inputs: 
-  myInput:
-    description: 'Input to use'
-    default: 'world'
+  event:
+    description: 'Event name to trigger'
+    required: true
+    default: 'my_event'
 runs:
   using: 'docker'
   image: 'Dockerfile'
   args:
-    - ${{ inputs.myInput }}
+    - ${{ inputs.event }}
