@@ -1,5 +1,22 @@
-# Container Action Template
+# IFTTT Trigger Action
 
-To get started, click the `Use this template` button on this repository [which will create a new repository based on this template](https://github.blog/2019-06-06-generate-new-repositories-with-repository-templates/).
+Trigger IFTTT with your custom event and values.
 
-For info on how to build your first Container action, see the [toolkit docs folder](https://github.com/actions/toolkit/blob/master/docs/container-action.md).
+## Usage
+
+Go to your IFTTT account and enable [**IFTTT Maker Webhooks**](https://ifttt.com/maker_webhooks), and save your own **token**.
+
+In your GitHub action yaml:
+
+```yaml
+- name: "Let's my IFTTT know this"
+  uses: cixo/ifttt-trigger@v0.3
+  with:
+    key: "YOUR_OWN_TOKEN"
+    event: "build_success"
+    value1: "demo"
+```
+
+P.S. You may store your token as [`Secrets`](https://help.github.com/en/actions/configuring-and-managing-workflows/creating-and-storing-encrypted-secrets).
+
+Good luck!
