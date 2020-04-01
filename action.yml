@@ -1,13 +1,29 @@
-name: 'IFTTT Maker Event Trigger'
-description: 'Trigger IFTTT with your custom event and values'
-author: 'cixo'
-inputs: 
-  event:
-    description: 'Event name to trigger'
+name: "IFTTT Maker Event Trigger"
+description: "Trigger IFTTT with your custom event and values"
+author: "cixo"
+inputs:
+  key:
+    description: "IFTTT Maker API key"
     required: true
-    default: 'my_event'
+  event:
+    description: "Event name to trigger"
+    required: true
+    default: "github_action"
+  value1:
+    description: "First custom value"
+    required: false
+  value2:
+    description: "Second custom value"
+    required: false
+  value3:
+    description: "Third custom value"
+    required: false
 runs:
-  using: 'docker'
-  image: 'Dockerfile'
+  using: "docker"
+  image: "Dockerfile"
   args:
+    - ${{ inputs.key }}
     - ${{ inputs.event }}
+    - ${{ inputs.value1 }}
+    - ${{ inputs.value2 }}
+    - ${{ inputs.value3 }}

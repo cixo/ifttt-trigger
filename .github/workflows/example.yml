@@ -5,13 +5,19 @@ jobs:
     runs-on: ubuntu-latest
     name: A job to test to cixo/ifttt-trigger
     steps:
-      - name: "With event"
+      - name: "Without value"
         uses: cixo/ifttt-trigger@v0.1
         with:
-          event: "Hello World"
-      - name: "Without event"
+          key: "key1"
+          event: "event1"
+      - name: "With values"
         uses: cixo/ifttt-trigger@v0.1
-      - name: Run
+        with:
+          key: "key2"
+          event: "event2"
+          value1: "111"
+          value2: "222"
+      - name: Say Goodbye
         shell: bash
         run: |
           echo "Done!"

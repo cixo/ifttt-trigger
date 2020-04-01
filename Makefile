@@ -15,4 +15,9 @@ inspect:
 	docker images | grep $(DOCKER_IMG_NAME)
 	$(DOCKER) history $(DOCKER_IMG_NAME)
 run:
-	$(DOCKER) run --rm -it --name "$(DOCKER_IMG_NAME)_app" $(DOCKER_IMG_NAME) "event_123"
+	$(DOCKER) run --rm -it --name "$(DOCKER_IMG_NAME)_app" $(DOCKER_IMG_NAME) "key1 " "event1"
+	$(DOCKER) run --rm -it --name "$(DOCKER_IMG_NAME)_app" $(DOCKER_IMG_NAME) " key2" " event2" "v1"
+	$(DOCKER) run --rm -it --name "$(DOCKER_IMG_NAME)_app" $(DOCKER_IMG_NAME) "key2" " event2" "v1" "v2" "v3"
+	$(DOCKER) run --rm -it --name "$(DOCKER_IMG_NAME)_app" $(DOCKER_IMG_NAME) "key2" "event2 " "v1" "v2" "v3" "v4"
+	$(DOCKER) run --rm -it --name "$(DOCKER_IMG_NAME)_app" $(DOCKER_IMG_NAME) "key3"
+all: build run
